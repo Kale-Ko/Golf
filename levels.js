@@ -38,7 +38,8 @@ var level3 = {
         y: 60
     },
     objects: [
-        ["water", 16, 220, 105, 12]
+        ["water", 16, 220, 105, 12],
+        ["ramp", 110, 255, 25, 10, "n", 1]
     ]
 }
 
@@ -54,6 +55,6 @@ var winlevel = {
     objects: []
 }
 
-var levels = [level3, level1, level2, level3]
+var levels = [level1, level2, level3]
 
 export { levels, winlevel }
