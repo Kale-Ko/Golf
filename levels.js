@@ -51,9 +51,7 @@ var winlevel = {
         x: 136,
         y: 60
     },
-    objects: [
-        
-    ]
+    objects: []
 }
 
 var levels = [level3, level1, level2, level3]
