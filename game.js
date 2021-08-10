@@ -31,7 +31,7 @@ background.height = 600*/
 const ball = PIXI.Sprite.from("./assets/ball.png")
 ball.scale.x = 1 / Math.P
 ball.scale.y = 1 / Math.P
-var velocity = { x: 0, y: 0}
+var velocity = { x: 0, y: 0 }
 app.ticker.add(delta => {
     ball.x += velocity.x * delta
     ball.y += velocity.y * delta
@@ -161,7 +161,7 @@ function isCollding(object1, object2) {
     return object1.x + object1.width >= object2.x && object1.y + object1.height >= object2.y && object1.x <= object2.x + object2.width && object1.y <= object2.y + object2.height
 }
 
-function doBallCollision(ball, exlcude = []) {
+function doBallCollision(ball, exclude = []) {
     var ballx = PIXI.Sprite.from("./assets/ball.png")
     ballx.x = ball.x + velocity.x
     ballx.y = ball.y
@@ -181,7 +181,7 @@ function doBallCollision(ball, exlcude = []) {
     bally.y += velocity.y
 
     app.stage.children.forEach(object2 => {
-        if (ball == object2 || exlcude.includes(object2)) return
+        if (ball == object2 || exclude.includes(object2)) return
 
         if (isCollding(ballx, object2)) velocity.x = -velocity.x
         if (isCollding(bally, object2)) velocity.y = -velocity.y
@@ -189,5 +189,5 @@ function doBallCollision(ball, exlcude = []) {
 }
 
 Math.clamp = (x, min, max) => { return Math.min(Math.max(x, min), max) }
-Math.pos = x => { if (x < 0) x = -x; return x }
-Math.neg = x => { if (x > 0) x = -x; return x }
+Math.pos = x => { if (x < 0) { x = -x } return x }
+Math.neg = x => { if (x > 0) { x = -x } return x }
