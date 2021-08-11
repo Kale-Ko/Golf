@@ -137,15 +137,6 @@ function resetLevel() {
             newobject.scale.x = object[3] / 100
             newobject.scale.y = object[4] / 100
             newobject.tiletype = "brick"
-        } else if (object[0] == "ramp") {
-            newobject = PIXI.Sprite.from("./assets/object.png")
-            newobject.x = object[1]
-            newobject.y = object[2]
-            newobject.scale.x = object[3] / 100
-            newobject.scale.y = object[4] / 100
-            if (object[5] == "e" || object[5] == "w") { newobject.scale.x = object[4] / 100; newobject.scale.y = object[3] / 100 }
-            newobject.tiletype = "ramp"
-            newobject.slope = object[6]
         } else if (object[0] == "water") {
             newobject = PIXI.Sprite.from("./assets/water.png")
             newobject.x = object[1]
@@ -153,6 +144,11 @@ function resetLevel() {
             newobject.scale.x = object[3] / 100
             newobject.scale.y = object[4] / 100
             newobject.tiletype = "water"
+        } else if (object[0] == "text") {
+            newobject = new PIXI.Text(object[3], { fontFamily: "Arial", fontSize: object[4], fill: object[5], align: "center" })
+            newobject.x = object[1]
+            newobject.y = object[2]
+            newobject.tiletype = "text"
         }
 
         currentobjects.push(newobject)
@@ -200,8 +196,6 @@ function doBallCollision(ball) {
         if (object2.tiletype == "brick" && (xcolliding || ycolliding)) {
             if (xcolliding) velocity.x = -velocity.x
             if (ycolliding) velocity.y = -velocity.y
-        } else if (object2.tiletype == "ramp" && (xcolliding || ycolliding)) {
-
         } else if (object2.tiletype == "water" && ball.z == 1 && (xcolliding || ycolliding)) resetLevel()
     })
 }

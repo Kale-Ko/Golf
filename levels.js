@@ -8,7 +8,7 @@ var level1 = {
         y: 60
     },
     objects: [
-        ["brick", 86, 220, 50, 4]
+        ["brick", 86, 220, 50, 5]
     ]
 }
 
@@ -22,9 +22,9 @@ var level2 = {
         y: 60
     },
     objects: [
-        ["brick", 134, 340, 60, 4],
-        ["brick", 16, 220, 80, 4],
-        ["brick", 80, 130, 80, 4],
+        ["brick", 134, 340, 60, 5],
+        ["brick", 16, 220, 80, 5],
+        ["brick", 80, 130, 80, 5],
     ]
 }
 
@@ -38,8 +38,7 @@ var level3 = {
         y: 60
     },
     objects: [
-        ["water", 16, 220, 105, 12],
-        ["ramp", 110, 255, 25, 10, "n", 1]
+        ["water", 16, 190, 75, 12],
     ]
 }
 
@@ -52,7 +51,9 @@ var winlevel = {
         x: 136,
         y: 60
     },
-    objects: []
+    objects: [
+        ["text", 65, 220, "You Won!", 40, 0x000000]
+    ]
 }
 
 var levels = [level1, level2, level3]
