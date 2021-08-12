@@ -4,6 +4,7 @@ const canvas = document.getElementById("game")
 
 var mouseDown = false
 var startMousePos = { x: 0, y: 0 }
+var won = false
 
 const app = new PIXI.Application({
     view: canvas,
@@ -21,7 +22,6 @@ window.onresize()
 
 Math.P = 16
 Math.F = 0.015
-Math.G = 0.98
 
 const background = PIXI.TilingSprite.from("./assets/background.png")
 background.tileScale.x = 4 / Math.P
@@ -29,21 +29,24 @@ background.tileScale.y = 4 / Math.P
 background.width = 300
 background.height = 600
 
+var strokeCount = 0
+var totalStrokeCount = 0
+const strokeCountText = new PIXI.Text("Strokes: " + strokeCount, { fontFamily: "Arial", fontSize: 24, fill: 0x000000, align: "left" })
+strokeCountText.x = 20
+strokeCountText.y = 20
+
 const ball = PIXI.Sprite.from("./assets/ball.png")
-ball.z = 1
 ball.scale.x = 1 / Math.P
 ball.scale.y = 1 / Math.P
-var velocity = { x: 0, y: 0, z: 0 }
+var velocity = { x: 0, y: 0 }
 app.ticker.add(delta => {
     ball.x += velocity.x * delta
     ball.y += velocity.y * delta
-    ball.z = Math.clamp(ball.z + (velocity.z * delta), 1, 11)
 
     if (velocity.x > 0) velocity.x -= Math.F * velocity.x * delta
     else velocity.x += Math.F * -velocity.x * delta
     if (velocity.y > 0) velocity.y -= Math.F * velocity.y * delta
     else velocity.y += Math.F * -velocity.y * delta
-    velocity.z -= Math.G
 
     doBallCollision(ball)
 
@@ -84,6 +87,8 @@ wall4.tiletype = "brick"
 
 app.stage.addChild(background)
 
+app.stage.addChild(strokeCountText)
+
 app.stage.addChild(wall1)
 app.stage.addChild(wall2)
 app.stage.addChild(wall3)
@@ -103,16 +108,23 @@ loadLevel()
 function loadLevel() {
     currentobjects.forEach(object => { object.destroy(); delete currentobjects[currentobjects.indexOf(object)] })
 
+    strokeCount = 0
+    strokeCountText.text = "Strokes: " + strokeCount
+
     level++
 
-    document.title = "Golf - Level " + level
+    document.title = "Mini Golf - Level " + level
 
     currentlevel = levels[level - 1]
 
     if (currentlevel == undefined) {
-        document.title = "Golf - Win"
+        document.title = "Mini Golf - Win"
 
         currentlevel = winlevel
+
+        strokeCountText.text = "Total Strokes: " + totalStrokeCount
+
+        won = true
     }
 
     resetLevel()
@@ -169,6 +181,12 @@ function calculateArrow(start, end) {
 function launchBall(start, end) {
     velocity.x = Math.clamp((start.x - end.x) / 25, -10, 10)
     velocity.y = Math.clamp((start.y - end.y) / 25, -10, 10)
+
+    if (!won) {
+        strokeCount++
+        totalStrokeCount++
+        strokeCountText.text = "Strokes: " + strokeCount
+    }
 }
 
 function isCollding(object1, object2) { return object1.x + object1.width >= object2.x && object1.y + object1.height >= object2.y && object1.x <= object2.x + object2.width && object1.y <= object2.y + object2.height }
@@ -196,7 +214,29 @@ function doBallCollision(ball) {
         if (object2.tiletype == "brick" && (xcolliding || ycolliding)) {
             if (xcolliding) velocity.x = -velocity.x
             if (ycolliding) velocity.y = -velocity.y
-        } else if (object2.tiletype == "water" && ball.z == 1 && (xcolliding || ycolliding)) resetLevel()
+        } else if (object2.tiletype == "water" && (xcolliding || ycolliding)) {
+            if (xcolliding) {
+                if (velocity.x > 0) {
+                    ball.x = object2.x - ball.width - 2
+                } else {
+                    ball.x = object2.x + object2.width + 2
+                }
+            }
+            if (ycolliding) {
+                if (velocity.y > 0) {
+                    ball.y = object2.y - ball.height - 2
+                } else {
+                    ball.y = object2.y + object2.height + 2
+                }
+            }
+
+            velocity.x = 0
+            velocity.y = 0
+
+            strokeCount++
+            totalStrokeCount++
+            strokeCountText.text = "Stokes: " + strokeCount
+        }
     })
 }
 
