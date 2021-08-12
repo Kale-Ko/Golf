@@ -8,7 +8,8 @@ var level1 = {
         y: 60
     },
     objects: [
-        ["brick", 86, 220, 50, 5]
+        ["text", 25, 550, "Click and drag to shoot", 24, 0x000000],
+        ["text", 24, 90, "Get in the hole to advance", 22, 0x000000]
     ]
 }
 
@@ -18,13 +19,12 @@ var level2 = {
         y: 520
     },
     hole: {
-        x: 240,
+        x: 136,
         y: 60
     },
     objects: [
-        ["brick", 134, 340, 60, 5],
-        ["brick", 16, 220, 80, 5],
-        ["brick", 80, 130, 80, 5],
+        ["brick", 86, 220, 50, 5],
+        ["text", 44, 160, "You bounce off the\nwalls and objects", 24, 0x000000]
     ]
 }
 
@@ -38,7 +38,8 @@ var level3 = {
         y: 60
     },
     objects: [
-        ["water", 16, 190, 75, 12],
+        ["water", 16, 190, 65, 12],
+        ["text", 20, 160, "Hitting water is a penalty", 24, 0x000000]
     ]
 }
 
