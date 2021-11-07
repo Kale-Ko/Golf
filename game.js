@@ -1,3 +1,10 @@
+/**
+    @license
+    MIT License
+    Copyright (c) 2021 Kale Ko
+    See https://kaleko.ga/license.txt
+*/
+
 import { levels, winlevel } from "./levels.js"
 
 const canvas = document.getElementById("game")
